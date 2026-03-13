@@ -1,0 +1,23 @@
+# --- Dependencies ---
+# Never upload node_modules; they are too large and easily rebuilt
+node_modules/
+
+# --- Environment Variables (CRITICAL) ---
+# This protects your Gemini API Key and MongoDB credentials
+.env
+
+# --- Puppeteer ---
+# If you run Puppeteer, it might create a local .cache folder
+.cache/
+
+# --- Logs ---
+# Keeps your repo clean from debug logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- OS & IDE Files ---
+.DS_Store
+.vscode/
+.idea/

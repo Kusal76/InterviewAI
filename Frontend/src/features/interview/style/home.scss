@@ -1,0 +1,739 @@
+// ── Variables & Theming (Upgraded to CSS Variables) ──────────────────────────
+:root {
+    // Default (Dark Mode) Colors
+    --bg-page: #0d1117;
+    --bg-card: #161b22;
+    --bg-panel: #1c2230;
+    --bg-input: #1e2535;
+    --border-color: #2a3348;
+    --text-primary: #e6edf3;
+    --text-muted: #7d8590;
+    --info-bg: #1b2a4a;
+    --info-border: #2d4a7a;
+    --nav-dropdown: #1e293b;
+}
+
+body.light-mode {
+    // Light Mode Overrides
+    --bg-page: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-panel: #f1f5f9;
+    --bg-input: #f1f5f9;
+    --border-color: #cbd5e1;
+    --text-primary: #0f172a;
+    --text-muted: #64748b;
+    --info-bg: #e0f2fe;
+    --info-border: #bae6fd;
+    --nav-dropdown: #ffffff;
+}
+
+// Accent colors stay as SCSS variables since they don't change between modes
+$accent: #ff2d78;
+$badge-required: #ff2d78;
+$badge-best: #ff2d78;
+$font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+// ── Top Navigation ────────────────────────────────────────────────────────────
+.top-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%;
+    width: 100%;
+    background: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+
+    .nav-brand {
+        color: var(--text-primary);
+        font-size: 1.5rem;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .brand-icon {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+        }
+    }
+
+    .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .theme-toggle-btn {
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem;
+        border-radius: 50%;
+        transition: all 0.2s;
+
+        &:hover {
+            color: var(--text-primary);
+            background: var(--bg-input);
+            transform: scale(1.1);
+        }
+    }
+
+    .nav-user {
+        position: relative;
+        padding: 0.5rem 0;
+
+        .nav-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-input);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &:hover {
+                border-color: $accent;
+            }
+        }
+
+        .nav-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 260px;
+            background: var(--nav-dropdown);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 0;
+            animation: fadeIn 0.2s ease-in-out;
+
+            .nav-dropdown-header {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                padding: 1rem;
+
+                .dropdown-avatar {
+                    width: 48px;
+                    height: 48px;
+                    background: var(--bg-input);
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                    font-size: 1.25rem;
+                    color: var(--text-primary);
+                    flex-shrink: 0;
+                }
+
+                .dropdown-user-details {
+                    display: flex;
+                    flex-direction: column;
+                    overflow: hidden;
+
+                    strong {
+                        color: var(--text-primary);
+                        font-size: 1rem;
+                        margin-bottom: 0.25rem;
+                    }
+
+                    span {
+                        color: var(--text-muted);
+                        font-size: 0.85rem;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                }
+            }
+
+            hr {
+                border: 0;
+                border-top: 1px solid var(--border-color);
+                margin: 0.5rem 0;
+            }
+
+            .nav-logout-btn {
+                width: 100%;
+                text-align: left;
+                padding: 0.75rem 1.25rem;
+                background: transparent;
+                border: none;
+                color: var(--text-primary);
+                cursor: pointer;
+                font-size: 0.95rem;
+                transition: all 0.2s;
+
+                &:hover {
+                    background: rgba($accent, 0.1);
+                    color: $accent;
+                }
+            }
+        }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// ── Page Shell ───────────────────────────────────────────────────────────────
+.home-page {
+    padding-top: 80px;
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    font-family: $font-stack;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    gap: 2rem;
+    transition: background-color 0.3s ease, color 0.3s ease; // Smooth theme swap
+}
+
+// ── Page Header ──────────────────────────────────────────────────────────────
+.page-header {
+    text-align: center;
+
+    h1 {
+        font-size: 2.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+    }
+
+    p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        max-width: 480px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    .highlight {
+        color: $accent;
+    }
+}
+
+// ── Main Card ─────────────────────────────────────────────────────────────────
+.interview-card {
+    width: 100%;
+    max-width: 900px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+
+    &__body {
+        display: flex;
+        min-height: 520px;
+    }
+
+    &__footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 1.5rem;
+        border-top: 1px solid var(--border-color);
+
+        .footer-info {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+    }
+}
+
+// ── Panels ────────────────────────────────────────────────────────────────────
+.panel-divider {
+    width: 1px;
+    background-color: var(--border-color);
+    flex-shrink: 0;
+}
+
+.panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.25rem;
+
+        h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            flex: 1;
+        }
+    }
+
+    &__icon {
+        display: flex;
+        align-items: center;
+        color: $accent;
+    }
+
+    &__textarea {
+        flex: 1;
+        width: 100%;
+        background-color: var(--bg-input);
+        border: 1px solid var(--border-color);
+        border-radius: 0.5rem;
+        padding: 0.75rem 1rem;
+        color: var(--text-primary);
+        font-family: $font-stack;
+        font-size: 0.875rem;
+        resize: none;
+        outline: none;
+        transition: border-color 0.2s, background-color 0.3s ease;
+        line-height: 1.5;
+
+        &::placeholder {
+            color: var(--text-muted);
+        }
+
+        &:focus {
+            border-color: $accent;
+        }
+
+        &--short {
+            flex: unset;
+            height: 96px;
+        }
+    }
+
+    &--left {
+        position: relative;
+
+        .char-counter {
+            position: absolute;
+            bottom: 2.25rem;
+            right: 2rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+    }
+
+    &--right {
+        gap: 0.75rem;
+    }
+}
+
+// ── Badges ────────────────────────────────────────────────────────────────────
+.badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+
+    &--required {
+        background-color: rgba($badge-required, 0.15);
+        color: $badge-required;
+        border: 1px solid rgba($badge-required, 0.3);
+    }
+
+    &--best {
+        background-color: rgba($badge-best, 0.15);
+        color: $badge-best;
+        border: 1px solid rgba($badge-best, 0.3);
+    }
+}
+
+// ── Section Label & Dropzone ──────────────────────────────────────────────────
+.section-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.upload-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 1.5rem 1rem;
+    background-color: var(--bg-input);
+    border: 2px dashed var(--border-color);
+    border-radius: 0.6rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s;
+
+    &:hover {
+        border-color: $accent;
+        background-color: rgba($accent, 0.05);
+    }
+
+    &__icon {
+        color: $accent;
+        margin-bottom: 0.25rem;
+    }
+
+    &__title {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        margin: 0;
+    }
+
+    &__subtitle {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin: 0;
+    }
+}
+
+// ── Utilities ────────────────────────────────────────────────────────────────
+.or-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+
+    &::before,
+    &::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background-color: var(--border-color);
+    }
+
+    span {
+        white-space: nowrap;
+    }
+}
+
+.self-description {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.info-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.75rem 1rem;
+    background-color: var(--info-bg);
+    border: 1px solid var(--info-border);
+    border-radius: 0.5rem;
+    transition: background-color 0.3s, border-color 0.3s;
+
+    &__icon {
+        flex-shrink: 0;
+        color: #4a90e2;
+        margin-top: 1px;
+    }
+
+    p {
+        margin: 0;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+
+        strong {
+            color: var(--text-primary);
+        }
+    }
+}
+
+.generate-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, $accent 0%, #e6195e 100%);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    font-family: $font-stack;
+
+    &:hover {
+        opacity: 0.9;
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+// ── Recent Reports ────────────────────────────────────────────────────────────
+.recent-reports {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 900px;
+
+    .reports-list {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+
+        .report-item {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            flex-direction: column;
+            gap: 0.5rem;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+
+            .report-content {
+                flex-grow: 1;
+                text-align: center;
+            }
+
+            h3 {
+                color: var(--text-primary);
+                font-size: 1rem;
+                margin-bottom: 0.25rem;
+            }
+
+            .report-meta {
+                color: var(--text-muted);
+                font-size: 0.75rem;
+                margin-bottom: 0.25rem;
+            }
+
+            .delete-report-btn {
+                background: transparent;
+                border: none;
+                color: var(--text-muted);
+                padding: 8px;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: all 0.2s;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &:hover {
+                    background: rgba($accent, 0.1);
+                    color: $accent;
+                }
+            }
+
+            .match-score {
+                font-size: 0.8rem;
+                font-weight: 600;
+                color: $accent;
+            }
+        }
+    }
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    background: var(--bg-input);
+    border: 1px dashed var(--border-color);
+    border-radius: 12px;
+    text-align: center;
+    margin-top: 1rem;
+
+    svg {
+        margin-bottom: 1rem;
+        color: var(--text-muted);
+        opacity: 0.7;
+    }
+
+    h3 {
+        color: var(--text-primary);
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        max-width: 400px;
+        line-height: 1.5;
+    }
+}
+
+// ── Page Footer ───────────────────────────────────────────────────────────────
+.page-footer {
+    display: flex;
+    gap: 1.5rem;
+
+    a {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: color 0.2s;
+
+        &:hover {
+            color: var(--text-primary);
+        }
+    }
+}
+
+// ── AI Loading Screen ────────────────────────────────────────────────────────
+.loading-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    position: fixed; // Keeps it locked on the screen
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.loader-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+
+    h2 {
+        font-size: 1.5rem;
+        margin: 0;
+        letter-spacing: 0.5px;
+        color: var(--text-primary);
+    }
+}
+
+// The cycling text
+.loading-step-text {
+    color: $accent; // Uses your pink/red accent color
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin: 0;
+    animation: pulseText 1.5s infinite ease-in-out;
+}
+
+// The AI Core Spinner
+.ai-spinner {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 4px solid rgba($accent, 0.15);
+    border-top-color: $accent; // The spinning part
+    animation: spin 1.2s linear infinite;
+
+    .inner-circle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 35px;
+        height: 35px;
+        background-color: rgba($accent, 0.2);
+        border-radius: 50%;
+        box-shadow: 0 0 15px rgba($accent, 0.5);
+        animation: pulseCore 1.5s ease-in-out infinite alternate;
+    }
+}
+
+// ── Loader Animations ────────────────────────────────────────────────────────
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulseCore {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 1;
+    }
+}
+
+@keyframes pulseText {
+
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}

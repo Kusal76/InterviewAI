@@ -1,0 +1,27 @@
+# --- Dependencies ---
+# Ignores the heavy library folders in both Frontend and Backend
+node_modules/
+Backend/node_modules/
+Frontend/node_modules/
+
+# --- Environment Variables (CRITICAL) ---
+# Prevents your Gemini API key and MongoDB URI from leaking
+.env
+Backend/.env
+Frontend/.env
+
+# --- Production Builds ---
+# Ignores the compiled code
+Frontend/dist/
+Frontend/build/
+
+# --- OS & IDE Files ---
+.DS_Store
+.vscode/
+.idea/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- Local Databases/Logs ---
+*.log

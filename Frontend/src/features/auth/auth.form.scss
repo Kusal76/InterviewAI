@@ -1,0 +1,129 @@
+main.auth-page {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #0f172a; // Match your dashboard background
+    padding: 20px;
+
+    .form-container {
+        background: #1e293b;
+        width: 100%;
+        max-width: 420px;
+        padding: 2.5rem;
+        border-radius: 16px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+        border: 1px solid #334155;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        h1 {
+            color: #f8fafc;
+            font-size: 1.75rem;
+            margin: 0;
+            text-align: center;
+        }
+
+        p {
+            color: #94a3b8;
+            font-size: 0.875rem;
+            text-align: center;
+            margin: 0;
+
+            a {
+                color: #3b82f6;
+                text-decoration: none;
+                font-weight: 500;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        label {
+            color: #e2e8f0;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        input {
+            background: #0f172a;
+            border: 1px solid #334155;
+            outline: none;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            color: white;
+            transition: all 0.2s ease;
+
+            &::placeholder {
+                color: #475569;
+            }
+
+            &:focus {
+                border-color: #3b82f6;
+                box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+            }
+        }
+    }
+
+    .primary-button {
+        background: #e11d48; // Your pinkish-red button color
+        color: white;
+        padding: 0.875rem;
+        border-radius: 0.75rem;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+        margin-top: 0.5rem;
+
+        &:hover {
+            background: #be123c;
+        }
+    }
+
+    // Dynamic Progress Bar for Auth
+    .auth-progress {
+        text-align: center;
+
+        .bar-bg {
+            height: 6px;
+            width: 100%;
+            background: #0f172a;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+
+            .bar-fill {
+                height: 100%;
+                background: linear-gradient(90deg, #3498db, #e11d48);
+                animation: auth-load 2s ease-in-out infinite;
+            }
+        }
+    }
+}
+
+@keyframes auth-load {
+    0% {
+        width: 0%;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
