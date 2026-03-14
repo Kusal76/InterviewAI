@@ -21,6 +21,11 @@ Do NOT wrap the output in markdown (no \`\`\`json).
 You MUST use EXACTLY the keys shown in the template below. 
 The fields "technicalQuestions", "behavioralQuestions", "skillGaps", and "preparationPlan" MUST be arrays of OBJECTS, exactly as shown. Do not return arrays of strings.
 
+QUANTITY REQUIREMENT: 
+- You MUST generate a minimum of 5 and a maximum of 10 items for the "technicalQuestions" array.
+- You MUST generate a minimum of 5 and a maximum of 10 items for the "behavioralQuestions" array.
+- Do NOT generate fewer than 5 questions for either section under any circumstances.
+
 {
   "title": "System Engineer",
   "matchScore": 85,
@@ -29,11 +34,21 @@ The fields "technicalQuestions", "behavioralQuestions", "skillGaps", and "prepar
       "question": "Real technical question based on their resume?",
       "intention": "Why ask this?",
       "answer": "Ideal model answer"
+    },
+    {
+      "question": "Second technical question...",
+      "intention": "Why ask this?",
+      "answer": "Ideal model answer"
     }
   ],
   "behavioralQuestions": [
     {
       "question": "Real behavioral question?",
+      "intention": "Why ask this?",
+      "answer": "Ideal model answer"
+    },
+    {
+      "question": "Second behavioral question...",
       "intention": "Why ask this?",
       "answer": "Ideal model answer"
     }
