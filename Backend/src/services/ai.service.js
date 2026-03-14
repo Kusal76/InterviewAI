@@ -10,7 +10,7 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENAI_API_KEY);
 async function generateInterviewReport({ resume, selfDescription, jobDescription }) {
   // Use the most stable flash model
   const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash", // Note: Ensure your version supports 2.0/2.5 as released
+    model: "gemini-1.5-flash-latest", // Note: Ensure your version supports 2.0/2.5 as released
     generationConfig: { responseMimeType: "application/json" }
   });
 
@@ -104,7 +104,7 @@ async function generatePdfFromHtml(htmlContent) {
  */
 async function generateResumePdf({ resume, selfDescription, jobDescription }) {
   const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash",
+    model: "gemini-1.5-flash-latest",
     generationConfig: { responseMimeType: "application/json" }
   });
 

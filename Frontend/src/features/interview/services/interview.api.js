@@ -16,7 +16,7 @@ export const generateInterviewReport = async ({ jobDescription, selfDescription,
     formData.append("resume", resumeFile)
 
     // FIX: Remove "/api" prefix
-    const response = await api.post("/interview/", formData, {
+    const response = await api.post("/interview", formData, {
         headers: {
             "Content-Type": "multipart/form-data"
         }
