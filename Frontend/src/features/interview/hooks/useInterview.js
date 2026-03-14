@@ -90,7 +90,7 @@ export const useInterview = () => {
         // 🔥 Use toast.promise to handle loading, success, and error automatically!
         const deletePromise = async () => {
             const token = localStorage.getItem("token");
-            await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/interview/${reportId}`, {
+            await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/interview/${reportId}`, {
                 headers: { Authorization: `Bearer ${token}` },
                 withCredentials: true
             });
