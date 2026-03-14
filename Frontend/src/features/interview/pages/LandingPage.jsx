@@ -191,7 +191,9 @@ const LandingPage = () => {
                     <button onClick={() => setActiveModal('terms')} className="footer-btn">Terms of Service</button>
                     <button onClick={() => setActiveModal('help')} className="footer-btn">Help Center</button>
                 </div>
-                <p className="copyright-text">©2026, InterviewAI. All rights reserved.</p>
+                <p className="text-sm text-gray-400 mt-8 text-center">
+                    © 2026 InterviewAI. Designed & Developed by <a href="https://www.linkedin.com/in/kusal-dey-b938a0241" target="_blank" rel="noopener noreferrer" className="hover:text-white underline transition-colors">Kusal Dev</a>.
+                </p>
             </footer>
 
             {/* 🔥 The Modal Component */}
