@@ -113,12 +113,17 @@ async function generateResumePdf({ resume, selfDescription, jobDescription }) {
   const prompt = `
     You are a professional Resume Designer. Create a one-page resume HTML.
     
-    Data: ${resume}
+    Resume Data: ${resume}
+    Self Description Data: ${selfDescription}
     Goal: Tailor for ${jobDescription}
+
+    CRITICAL RULES FOR PERSONAL DETAILS (ANTI-HALLUCINATION):
+    1. NAME: Extract the candidate's real name from the Resume Data or Self Description Data. If NO name is found in the provided text, output EXACTLY the word "Name" for the header. DO NOT use "John Doe" or any fake names.
+    2. CONTACT INFO: DO NOT hallucinate or generate fake emails, phone numbers, addresses, or social links (e.g., no "(123) 456-7890" or "email@example.com"). If a piece of contact info is missing from the data, simply omit that HTML element entirely.
 
     INSTRUCTIONS:
     1. Return ONLY a JSON object with a single key "html".
-    2. Do not use markdown tags.
+    2. Do not use markdown tags (no \`\`\`json).
     3. The HTML should be formatted using the following CSS guidelines for a Times New Roman professional look.
 
     <style>
