@@ -7,7 +7,7 @@ import Interview from "./features/interview/pages/Interview";
 import Login from "./features/auth/pages/Login";
 import Register from "./features/auth/pages/Register";
 // 🔥 Import your existing Protected component
-import Protected from "./components/protected"; // Adjust this path if necessary!
+import Protected from "./auth/components/protected"; // Adjust this path if necessary!
 
 export const router = createBrowserRouter([
     // --- PUBLIC ROUTES ---
