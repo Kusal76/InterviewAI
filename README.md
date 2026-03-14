@@ -1,5 +1,11 @@
 # 🚀 InterviewAI — The Ultimate AI-Powered Interview Suite
 
+![Live Deployment](https://img.shields.io/badge/Status-Live-success?style=for-the-badge)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
+![Gemini AI](https://img.shields.io/badge/AI-Google_Gemini_2.5_Flash-blue?style=for-the-badge)
+
 **InterviewAI** is a comprehensive full-stack career platform designed to bridge the gap between job seekers and their dream roles. By leveraging **Google Gemini 2.5 Flash**, the platform analyzes job descriptions and resumes to generate deep preparation strategies, real-time match scores, and professionally tailored resumes.
 
 ---
@@ -23,21 +29,28 @@
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stack & Architecture
 
-### Frontend
+### Frontend (Deployed via Vercel)
 - **Framework:** React.js (Vite)
 - **Styling:** SCSS (Modular)
 - **State Management:** React Hooks & Context API
-- **Routing:** React Router v6
+- **Routing:** React Router v6 (Configured for SPA deployment)
 
-### Backend
+### Backend (Deployed via Render)
 - **Runtime:** Node.js
 - **Framework:** Express.js
-- **Database:** MongoDB (Mongoose)
+- **Database:** MongoDB Atlas (Mongoose)
 - **AI Engine:** Google Gemini 2.5 Flash API
-- **PDF Engine:** Puppeteer (Chromium)
-- **Security:** JWT Authentication & Bcrypt password hashing
+- **PDF Engine:** Puppeteer (Configured for headless cloud execution)
+- **Security:** JWT Authentication, Bcrypt password hashing, Cross-Origin `httpOnly` secure cookies.
+
+---
+
+## ☁️ Cloud Deployment Notes
+This application is fully optimized for production environments:
+* **Secure Cross-Origin Authentication:** Implements `sameSite: 'none'` and `secure: true` cookie configurations to allow seamless, secure authentication between the Vercel frontend and Render backend.
+* **Serverless PDF Rendering:** Custom `.puppeteerrc.cjs` caching and `--no-sandbox` launch arguments enable heavy DOM-to-PDF generation within strict Linux cloud environments.
 
 ---
 
@@ -45,10 +58,8 @@
 
 ### Prerequisites
 - **Node.js:** v18.0.0 or higher
-- **Database:** MongoDB Atlas account
+- **Database:** MongoDB Atlas account (or local MongoDB)
 - **AI Key:** Google AI Studio (Gemini) API Key
-
----
 
 ## 📂 Project Structure
 
