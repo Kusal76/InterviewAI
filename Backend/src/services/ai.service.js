@@ -31,10 +31,11 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
     CONTENT REQUIREMENTS:
     - QUESTIONS: You MUST generate exactly 7 Technical Questions and exactly 7 Behavioral Questions.
     - ADAPTIVE ROADMAP: Calculate the Match Score first. 
-        * If Match Score is HIGH (90%+), generate a 3-day intensive roadmap.
-        * If Match Score is MEDIUM (60-89%), generate a 5-day roadmap.
+        * If Match Score is HIGH (80%+), generate a 3-day intensive roadmap.
+        * If Match Score is MEDIUM (60-79%), generate a 5-day roadmap.
         * If Match Score is LOW (<60%), generate a full 7-day comprehensive roadmap.
         * Minimum roadmap is 3 days, Maximum is 7 days.
+    - SKILL GAPS: The "severity" field MUST be entirely lowercase. Use strictly "low", "medium", or "high".
 
     {
       "title": "",
@@ -46,7 +47,7 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
         { "question": "", "intention": "", "answer": "" }
       ],
       "skillGaps": [
-        { "skill": "", "severity": "" }
+        { "skill": "", "severity": "medium" } 
       ],
       "preparationPlan": [
         { "day": 1, "focus": "", "tasks": [""] }
