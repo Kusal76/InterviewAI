@@ -28,8 +28,9 @@ async function generateInterViewReportController(req, res) {
         // 3. Conditionally parse the PDF ONLY if a file was uploaded
         let resumeText = "";
         if (req.file) {
-            const parsedPdf = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer)));
-            resumeText = await parsedPdf.getText();
+            const parsedPdf = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText();
+            // 🔥 THE FIX: Extract only the string using .text
+            resumeText = parsedPdf.text;
         }
 
         // 4. Pass data to AI (Empty strings are passed if they skipped a field)
