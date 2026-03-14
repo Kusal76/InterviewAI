@@ -80,16 +80,16 @@ async function generatePdfFromHtml(htmlContent) {
     ]
   });
   const page = await browser.newPage();
-  await page.setContent(htmlContent, { waitUntil: "networkidle0" })
+  await page.setContent(htmlContent, {
+    waitUntil: 'domcontentloaded',
+    timeout: 0
+  });
 
   const pdfBuffer = await page.pdf({
-    format: "A4", margin: {
-      top: "20mm",
-      bottom: "20mm",
-      left: "15mm",
-      right: "15mm"
-    }
-  })
+        format: 'A4',
+        printBackground: true,
+        timeout: 0
+    });
 
   await browser.close()
   return pdfBuffer
