@@ -5,7 +5,7 @@ const api = axios.create({
     withCredentials: true
 });
 
-// Interceptor to automatically add the token to every request header
+// Interceptor stays the same
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -18,19 +18,20 @@ api.interceptors.request.use((config) => {
 
 export async function register({ username, email, password }) {
     try {
-        const response = await api.post('/api/auth/register', {
+        // FIX: Remove "/api" prefix
+        const response = await api.post('/auth/register', {
             username, email, password
         });
         return response.data;
     } catch (err) {
-        // 🔥 Throw the error so the UI can catch it!
         throw err;
     }
 }
 
 export async function login({ email, password }) {
     try {
-        const response = await api.post("/api/auth/login", {
+        // FIX: Remove "/api" prefix
+        const response = await api.post("/auth/login", {
             email, password
         });
         return response.data;
@@ -41,7 +42,8 @@ export async function login({ email, password }) {
 
 export async function logout() {
     try {
-        const response = await api.get("/api/auth/logout");
+        // FIX: Remove "/api" prefix
+        const response = await api.get("/auth/logout");
         return response.data;
     } catch (err) {
         throw err;
@@ -50,7 +52,8 @@ export async function logout() {
 
 export async function getMe() {
     try {
-        const response = await api.get("/api/auth/get-me");
+        // FIX: Remove "/api" prefix
+        const response = await api.get("/auth/get-me");
         return response.data;
     } catch (err) {
         throw err;
