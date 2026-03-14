@@ -11,7 +11,7 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
   // Use the most stable flash model
   const model = genAI.getGenerativeModel({
     model: "gemini-2.5-flash", // Note: Ensure your version supports 2.0/2.5 as released
-    generationConfig: { responseMimeType: "application/json" }
+    generationConfig: { responseMimeType: "application/json", temperature: 0 }
   });
 
   const prompt = `
