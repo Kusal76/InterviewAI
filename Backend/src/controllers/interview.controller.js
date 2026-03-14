@@ -12,36 +12,59 @@ const interviewReportModel = require("../models/interviewReport.model")
  * @description Controller to generate interview report based on user self description, resume and job description.
  */
 async function generateInterViewReportController(req, res) {
+    try {
+        const { selfDescription, jobDescription } = req.body;
 
-    const resumeContent = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
-    const { selfDescription, jobDescription } = req.body
+        // 1. Mandatory Job Description Check
+        if (!jobDescription) {
+            return res.status(400).json({ message: "Job Description is mandatory." });
+        }
 
-    const interViewReportByAi = await generateInterviewReport({
-        resume: resumeContent.text,
-        selfDescription,
-        jobDescription
-    })
+        // 2. Flexible Profile Check: Must have either Resume OR Self Description
+        if (!req.file && !selfDescription) {
+            return res.status(400).json({ message: "Please provide either a Resume or a Self Description." });
+        }
 
-    console.log("RAW GEMINI DATA:", interViewReportByAi);
+        // 3. Conditionally parse the PDF ONLY if a file was uploaded
+        let resumeText = "";
+        if (req.file) {
+            const parsedPdf = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer)));
+            resumeText = await parsedPdf.getText();
+        }
 
-    // 🔥 THE FIX: Unwrap the AI data whether Gemini nested it or not!
-    const aiData = interViewReportByAi.interviewReport
-        || interViewReportByAi.report
-        || interViewReportByAi;
+        // 4. Pass data to AI (Empty strings are passed if they skipped a field)
+        const interViewReportByAi = await generateInterviewReport({
+            resume: resumeText,
+            selfDescription: selfDescription || "",
+            jobDescription
+        });
 
-    const interviewReport = await interviewReportModel.create({
-        ...aiData, // Spread the unwrapped data first!
-        user: req.user.id,
-        resume: resumeContent.text,
-        selfDescription,
-        jobDescription,
-        title: aiData.title || "Custom Interview Strategy Plan"
-    })
+        console.log("RAW GEMINI DATA:", interViewReportByAi);
 
-    res.status(201).json({
-        message: "Interview report generated successfully.",
-        interviewReport
-    })
+        // 5. Unwrap AI data
+        const aiData = interViewReportByAi.interviewReport
+            || interViewReportByAi.report
+            || interViewReportByAi;
+
+        // 6. Save to Database
+        const interviewReport = await interviewReportModel.create({
+            ...aiData,
+            user: req.user.id,
+            resume: resumeText,
+            selfDescription: selfDescription || "",
+            jobDescription,
+            title: aiData.title || "Custom Interview Strategy Plan"
+        });
+
+        res.status(201).json({
+            message: "Interview report generated successfully.",
+            interviewReport
+        });
+
+    } catch (error) {
+        console.error("Error generating report:", error);
+        res.status(500).json({ message: "Failed to generate strategy. Please try again." });
+    }
 }
 
 /**
