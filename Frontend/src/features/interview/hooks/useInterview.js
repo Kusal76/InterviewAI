@@ -28,13 +28,16 @@ export const useInterview = () => {
             toast.success("Interview strategy generated successfully!");
 
         } catch (error) {
-            console.log(error)
-            // 🔥 Add error toast here
-            toast.error("Failed to generate strategy. Please try again.");
-        } finally {
-            setLoading(false)
-        }
+            // 🔥 This line extracts the exact custom message from our backend!
+            const errorMessage = error.response?.data?.message || "Failed to generate strategy. Please try again.";
 
+            // Show the error in the toast
+            toast.error(errorMessage);
+
+            return null;
+        } finally {
+            setLoading(false);
+        }
         return response?.interviewReport
     }
 
