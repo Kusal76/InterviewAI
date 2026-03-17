@@ -1,11 +1,3 @@
-.landing-page {
-    min-height: 100vh;
-    background-color: var(--bg-page);
-    color: var(--text-primary);
-    font-family: system-ui, -apple-system, sans-serif;
-    overflow-x: hidden;
-}
-
 // ── Navbar ────────────────────────────────────────────────────────────────
 .landing-nav {
     display: flex;
@@ -15,6 +7,11 @@
     max-width: 1400px;
     margin: 0 auto;
 
+    /* 🔥 FIX: Tighten horizontal padding on phones */
+    @media (max-width: 768px) {
+        padding: 1rem 1rem;
+    }
+
     .nav-brand {
         display: flex;
         align-items: center;
@@ -22,9 +19,20 @@
         font-size: 1.5rem;
         font-weight: 800;
 
+        /* 🔥 FIX: Shrink logo text and gap on phones */
+        @media (max-width: 768px) {
+            font-size: 1.2rem;
+            gap: 0.25rem;
+        }
+
         .brand-icon {
             width: 32px;
             height: 32px;
+
+            @media (max-width: 768px) {
+                width: 24px;
+                height: 24px;
+            }
         }
     }
 
@@ -32,6 +40,11 @@
         display: flex;
         align-items: center;
         gap: 1.5rem;
+
+        /* 🔥 FIX: Reduce gap between theme toggle and buttons on phones */
+        @media (max-width: 768px) {
+            gap: 0.5rem;
+        }
 
         .theme-toggle-btn {
             background: transparent;
@@ -45,6 +58,11 @@
             border-radius: 50%;
             transition: transform 0.2s, background-color 0.2s;
 
+            @media (max-width: 768px) {
+                font-size: 1rem;
+                padding: 0.25rem;
+            }
+
             &:hover {
                 background: var(--bg-input);
                 transform: scale(1.1);
@@ -57,6 +75,11 @@
         gap: 1rem;
         align-items: center;
 
+        /* 🔥 FIX: Reduce gap between login and signup on phones */
+        @media (max-width: 768px) {
+            gap: 0.5rem;
+        }
+
         .nav-login-btn {
             text-decoration: none;
             color: var(--text-primary);
@@ -65,6 +88,13 @@
             border: 1px solid var(--border-color);
             border-radius: 20px;
             transition: background 0.2s;
+            white-space: nowrap;
+
+            /* 🔥 FIX: Make padding smaller on phones */
+            @media (max-width: 768px) {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.85rem;
+            }
 
             &:hover {
                 background: var(--bg-input);
@@ -79,579 +109,17 @@
             padding: 0.6rem 1.5rem;
             border-radius: 20px;
             transition: opacity 0.2s;
+            white-space: nowrap;
+
+            /* 🔥 FIX: Shrink padding and text size on phones */
+            @media (max-width: 768px) {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.85rem;
+            }
 
             &:hover {
                 opacity: 0.9;
             }
         }
-    }
-}
-
-// ── Hero Section ──────────────────────────────────────────────────────────
-.hero-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    padding: 4rem 5%;
-    max-width: 1400px;
-    margin: 0 auto;
-    align-items: center;
-
-    @media (max-width: 900px) {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-}
-
-.hero-content {
-    h1 {
-        font-size: 3.5rem;
-        font-weight: 800;
-        line-height: 1.1;
-        margin-bottom: 1.5rem;
-        letter-spacing: -1px;
-    }
-
-    p {
-        font-size: 1.1rem;
-        color: var(--text-muted);
-        line-height: 1.6;
-        margin-bottom: 2rem;
-        max-width: 600px;
-
-        @media (max-width: 900px) {
-            margin: 0 auto 2rem auto;
-        }
-    }
-
-    .hero-ctas {
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 2rem;
-
-        @media (max-width: 900px) {
-            justify-content: center;
-            flex-direction: column;
-        }
-
-        .cta-btn {
-            text-decoration: none;
-            padding: 1rem 2rem;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-align: center;
-            transition: transform 0.2s;
-
-            &:hover {
-                transform: translateY(-2px);
-            }
-
-            &.primary {
-                background-color: #3b82f6;
-                color: white;
-            }
-
-            &.secondary {
-                background-color: #fcd34d;
-                color: #1e40af;
-            }
-        }
-    }
-
-    .hero-trust-badge {
-        display: flex;
-        align-items: flex-start;
-        gap: 1rem;
-        background: var(--bg-card);
-        border: 1px solid var(--border-color);
-        padding: 1.5rem;
-        border-radius: 12px;
-        text-align: left;
-
-        .sparkle-icon {
-            font-size: 1.5rem;
-        }
-
-        p {
-            margin: 0;
-            font-size: 0.95rem;
-            color: var(--text-muted);
-        }
-
-        strong {
-            color: var(--text-primary);
-            display: block;
-            margin-bottom: 0.25rem;
-        }
-    }
-}
-
-// ── Hero Visual (Mockup) ──────────────────────────────────────────────────
-.hero-visual {
-    position: relative;
-    display: flex;
-    justify-content: center;
-
-    .mockup-card {
-        width: 100%;
-        max-width: 420px;
-        background: var(--bg-card);
-        border: 1px solid var(--border-color);
-        border-radius: 16px;
-        padding: 1.5rem;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        position: relative;
-        text-align: left;
-
-        .mockup-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.25rem;
-            padding-bottom: 1.25rem;
-            border-bottom: 1px solid var(--border-color);
-
-            .mockup-score-circle {
-                width: 55px;
-                height: 55px;
-                border-radius: 50%;
-                background: rgba(34, 197, 94, 0.1);
-                color: #22c55e;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-weight: 800;
-                font-size: 1.1rem;
-                border: 3px solid #22c55e;
-            }
-
-            .mockup-title {
-                h3 {
-                    margin: 0 0 0.25rem 0;
-                    font-size: 1.1rem;
-                    font-weight: 700;
-                    color: var(--text-primary);
-                }
-
-                p {
-                    margin: 0;
-                    font-size: 0.85rem;
-                    color: var(--text-muted);
-                }
-            }
-        }
-
-        .mockup-body {
-            .mockup-section {
-                margin-bottom: 1.25rem;
-
-                .section-label {
-                    font-size: 0.75rem;
-                    text-transform: uppercase;
-                    font-weight: 700;
-                    color: var(--text-muted);
-                    margin-bottom: 0.5rem;
-                    letter-spacing: 0.5px;
-                }
-
-                .mockup-tags {
-                    display: flex;
-                    gap: 0.5rem;
-                    flex-wrap: wrap;
-
-                    .tag {
-                        padding: 0.35rem 0.75rem;
-                        border-radius: 20px;
-                        font-size: 0.75rem;
-                        font-weight: 600;
-
-                        &.matched {
-                            background: rgba(59, 130, 246, 0.1);
-                            color: #3b82f6;
-                        }
-
-                        &.gap {
-                            background: rgba(239, 68, 68, 0.1);
-                            color: #ef4444;
-                        }
-                    }
-                }
-
-                .mockup-question {
-                    background: var(--bg-page);
-                    padding: 0.85rem;
-                    border-radius: 8px;
-                    border-left: 3px solid #fcd34d;
-
-                    p {
-                        margin: 0;
-                        font-size: 0.85rem;
-                        color: var(--text-primary);
-                        line-height: 1.5;
-                        font-style: italic;
-                    }
-                }
-            }
-        }
-
-        .floating-badge {
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            background: #e0f2fe;
-            color: #0369a1;
-            padding: 0.75rem 1.5rem;
-            border-radius: 20px;
-            font-weight: bold;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            animation: float 3s ease-in-out infinite;
-        }
-    }
-}
-
-@keyframes float {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
-}
-
-// ── Social Proof ──────────────────────────────────────────────────────────
-.social-proof {
-    text-align: center;
-    padding: 4rem 5%;
-    border-top: 1px solid var(--border-color);
-    margin-top: 2rem;
-
-    p {
-        color: var(--text-muted);
-        font-weight: 600;
-        margin-bottom: 2rem;
-    }
-
-    .brand-logos {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 3rem;
-        opacity: 0.6;
-        filter: grayscale(100%);
-        transition: all 0.3s;
-
-        &:hover {
-            filter: grayscale(0%);
-            opacity: 1;
-        }
-
-        .brand {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: var(--text-primary);
-        }
-    }
-}
-
-// ── Global Section Container ─────────────────────────────────────────────
-.section-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 5%;
-    text-align: center;
-
-    h2 {
-        font-size: 2.75rem;
-        font-weight: 800;
-        margin-bottom: 1.5rem;
-        letter-spacing: -1px;
-        color: var(--text-primary);
-    }
-
-    .section-sub {
-        font-size: 1.15rem;
-        color: var(--text-muted);
-        max-width: 700px;
-        margin: 0 auto 4rem auto;
-        line-height: 1.6;
-
-        strong {
-            color: var(--text-primary);
-        }
-    }
-}
-
-// ── Tailored Section (SECTION 3) ──────────────────────────────────────────
-.tailored-section {
-    padding: 6rem 0;
-    background-color: var(--bg-card);
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
-
-    .tailored-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 3rem;
-        text-align: left;
-
-        @media (max-width: 800px) {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    .tailored-item {
-        background: var(--bg-page);
-        padding: 2.5rem;
-        border-radius: 12px;
-        border: 1px solid var(--border-color);
-
-        .icon {
-            font-size: 2rem;
-            display: block;
-            margin-bottom: 1.5rem;
-        }
-
-        h4 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            color: var(--text-primary);
-        }
-
-        p {
-            font-size: 1rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-    }
-}
-
-// ── Key Benefits (SECTION 4) ─────────────────────────────────────────────
-.benefits-section {
-    padding: 8rem 0;
-
-    .benefits-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 2rem;
-
-        @media (max-width: 900px) {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    .benefit-card {
-        text-align: left;
-        padding: 2rem;
-
-        .icon {
-            font-size: 2rem;
-            display: block;
-            margin-bottom: 1.5rem;
-        }
-
-        h4 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.75rem;
-            color: var(--text-primary);
-        }
-
-        p {
-            font-size: 1rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-    }
-}
-
-// ── Final Call to Action ─────────────────────────────────────────────
-.final-cta {
-    text-align: center;
-    padding: 6rem 0;
-    border-top: 1px solid var(--border-color);
-
-    .final-cta-btn {
-        text-decoration: none;
-        background-color: #3b82f6;
-        color: white;
-        font-weight: 700;
-        padding: 1.25rem 3rem;
-        border-radius: 40px;
-        font-size: 1.25rem;
-        transition: transform 0.2s, background-color 0.2s;
-        display: inline-block;
-
-        &:hover {
-            background-color: #2563eb;
-            transform: scale(1.03);
-        }
-    }
-}
-
-// ── Landing Footer (SECTION 5) ─────────────────────────────────────────────
-.landing-footer {
-    text-align: center;
-    padding: 4rem 5% 2rem 5%;
-    border-top: 1px solid var(--border-color);
-    background-color: var(--bg-card);
-
-    .footer-links {
-        display: flex;
-        justify-content: center;
-        gap: 2.5rem;
-        margin-bottom: 2rem;
-
-        a {
-            text-decoration: none;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            transition: color 0.2s;
-
-            &:hover {
-                color: var(--text-primary);
-            }
-        }
-    }
-
-    .copyright-text {
-        font-size: 0.9rem;
-        color: var(--text-muted);
-        opacity: 0.7;
-        margin: 0;
-    }
-}
-
-// ── Footer Buttons Override ─────────────────────────────────────────────
-.landing-footer .footer-links {
-    .footer-btn {
-        background: none;
-        border: none;
-        color: var(--text-muted);
-        font-size: 0.95rem;
-        cursor: pointer;
-        font-family: inherit;
-        padding: 0;
-        transition: color 0.2s;
-
-        &:hover {
-            color: var(--text-primary);
-            text-decoration: underline;
-        }
-    }
-}
-
-// ── Info Modal ──────────────────────────────────────────────────────────
-.info-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    padding: 1rem;
-}
-
-.info-modal-content {
-    background: var(--bg-page);
-    border: 1px solid var(--border-color);
-    width: 100%;
-    max-width: 500px;
-    border-radius: 16px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    overflow: hidden;
-
-    .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1.5rem;
-        border-bottom: 1px solid var(--border-color);
-
-        h3 {
-            margin: 0;
-            font-size: 1.25rem;
-            color: var(--text-primary);
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            display: flex;
-            padding: 0.25rem;
-            border-radius: 8px;
-            transition: background 0.2s, color 0.2s;
-
-            &:hover {
-                background: var(--bg-input);
-                color: var(--text-primary);
-            }
-        }
-    }
-
-    .modal-body {
-        padding: 1.5rem;
-        max-height: 60vh;
-        overflow-y: auto;
-
-        p {
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-top: 0;
-            margin-bottom: 1rem;
-
-            &:last-child {
-                margin-bottom: 0;
-            }
-        }
-    }
-
-    .modal-footer {
-        padding: 1.5rem;
-        border-top: 1px solid var(--border-color);
-        background: var(--bg-card);
-        display: flex;
-        justify-content: flex-end;
-
-        .cta-btn.primary {
-            background-color: #3b82f6;
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 20px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 0.95rem;
-
-            &:hover {
-                background-color: #2563eb;
-            }
-        }
-    }
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
     }
 }
