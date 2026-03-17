@@ -30,7 +30,6 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
 
     CONTENT REQUIREMENTS:
     - QUESTIONS: You MUST generate exactly 7 Technical Questions and exactly 7 Behavioral Questions.
-    - ANSWERS: You MUST write a detailed, ideal model answer for EVERY question. Do NOT leave any field blank.
     - ADAPTIVE ROADMAP: Calculate the Match Score first. 
         * If Match Score is HIGH (90%+), generate a 3-day intensive roadmap.
         * If Match Score is MEDIUM (70-89%), generate a 5-day roadmap.
@@ -38,14 +37,20 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
         * Minimum roadmap is 3 days, Maximum is 7 days.
     - SKILL GAPS: The "severity" field MUST be entirely lowercase. Use strictly "low", "medium", or "high".
 
+    🔥 CRITICAL FORMATTING RULES FOR ANSWERS (STRICTLY ENFORCED):
+    1. Be Concise: Model answers MUST NOT exceed 3 to 4 short sentences. 
+    2. Use Structure: Whenever possible, use 2 or 3 bullet points to break up technical concepts instead of large paragraphs.
+    3. Tone: Professional, direct, and to-the-point. Strip out all fluff, filler words, and introductory phrases (e.g., do not start with 'When designing a scalable system, I would start by...').
+    4. Focus: Highlight only the core technical keywords, tools, and the direct solution. Do not leave any answer field blank.
+
     {
       "title": "Job Title",
       "matchScore": 0,
       "technicalQuestions": [
-        { "question": "write the question here", "intention": "write the intention here", "answer": "write the ideal answer here" }
+        { "question": "write the question here", "intention": "write the intention here", "answer": "write the structured, concise answer here" }
       ],
       "behavioralQuestions": [
-        { "question": "write the question here", "intention": "write the intention here", "answer": "write the ideal answer here" }
+        { "question": "write the question here", "intention": "write the intention here", "answer": "write the structured, concise answer here" }
       ],
       "skillGaps": [
         { "skill": "skill name", "severity": "medium" }
