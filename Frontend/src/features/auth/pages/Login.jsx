@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link, useLocation } from 'react-router'; // 🔥 Added useLocation
-import "../auth.form.scss";
+import { useNavigate, Link, useLocation } from 'react-router'; 
 import { useAuth } from '../hooks/useAuth';
 
 const Login = () => {
@@ -37,7 +36,8 @@ const Login = () => {
     };
 
     const handleGithubLogin = () => {
-        window.location.href = "http://localhost:3000/api/auth/github";
+        const apiUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
+        window.location.href = `${apiUrl}/api/auth/github`;
     };
 
     if (loading) {
