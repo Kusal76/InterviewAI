@@ -68,8 +68,10 @@ authRouter.get('/github/callback',
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
-        // 🔥 FIX: Pass the token in the URL so React can catch it!
-        res.redirect(`http://localhost:5173/login?token=${token}`);
+        // This tells the code: "Use the live URL if it exists, otherwise use localhost"
+        const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+
+        res.redirect(`${frontendUrl}/login?token=${token}`);
     }
 );
 
