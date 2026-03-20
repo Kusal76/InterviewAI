@@ -41,7 +41,7 @@ async function registerUserController(req, res) {
 
     res.status(201).json({
         message: "User registered successfully",
-        token, // 🔥 Return token explicitly for frontend storage
+        token, // Return token explicitly for frontend storage
         user: { id: user._id, username: user.username, email: user.email }
     });
 }
@@ -49,17 +49,15 @@ async function registerUserController(req, res) {
 async function loginUserController(req, res) {
     const { email, password } = req.body;
 
-    const user = await userModel.findOne({ email }).select("+password"); // Ensure password is included for comparison
+    const user = await userModel.findOne({ email }).select("+password");
 
     if (!user) {
-        // 🔥 Use 401 for Auth failures
         return res.status(401).json({ message: "Invalid email or password" });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-        // 🔥 Use 401 for Auth failures
         return res.status(401).json({ message: "Invalid email or password" });
     }
 
@@ -78,7 +76,7 @@ async function loginUserController(req, res) {
 
     res.status(200).json({
         message: "User logged in successfully.",
-        token, // 🔥 Return token explicitly for frontend storage
+        token,
         user: { id: user._id, username: user.username, email: user.email }
     });
 }

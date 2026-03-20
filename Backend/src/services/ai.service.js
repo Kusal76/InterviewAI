@@ -1,5 +1,6 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const puppeteer = require("puppeteer");
+const { getTopGithubLanguages } = require("./github.service"); // 🔥 ADDED: Import the new service
 
 // Initialize the gemini-2.5-flash SDK
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENAI_API_KEY);
@@ -7,12 +8,23 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENAI_API_KEY);
 /**
  * Generates the Interview Strategy Report
  */
-async function generateInterviewReport({ resume, selfDescription, jobDescription }) {
+async function generateInterviewReport({ resume, selfDescription, jobDescription, githubAccessToken }) {
   // Use the most stable flash model
   const model = genAI.getGenerativeModel({
-    model: "gemini-2.5-flash", // Note: Ensure your version supports 2.0/2.5 as released
+    model: "gemini-2.5-flash",
     generationConfig: { responseMimeType: "application/json", temperature: 0 }
   });
+
+  const topLanguages = await getTopGithubLanguages(githubAccessToken);
+
+  let githubPromptModifier = "";
+  if (topLanguages && topLanguages !== "No specific languages found") {
+    // If we found languages, force Gemini to use them!
+    githubPromptModifier = `
+      LIVE GITHUB DATA: The candidate's most used programming languages in their recent public repositories are: **${topLanguages}**. 
+      CRITICAL: You MUST explicitly mention or test these specific languages in at least 2 of the Technical Questions to make the interview highly personalized.
+      `;
+  }
 
   const prompt = `
     You are a professional Career Coach and Data-Parsing API. 
@@ -21,6 +33,7 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
     Job Description: ${jobDescription}
     Resume: ${resume}
     Self Description: ${selfDescription}
+    ${githubPromptModifier}
 
     CRITICAL OUTPUT RULES:
     1. Return ONLY a raw JSON object. 
@@ -37,7 +50,7 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
         * Minimum roadmap is 3 days, Maximum is 7 days.
     - SKILL GAPS: The "severity" field MUST be entirely lowercase. Use strictly "low", "medium", or "high".
 
-    🔥 CRITICAL FORMATTING RULES FOR ANSWERS (STRICTLY ENFORCED):
+    CRITICAL FORMATTING RULES FOR ANSWERS (STRICTLY ENFORCED):
     1. Be Concise: Model answers MUST NOT exceed 3 to 4 short sentences. 
     2. Use Structure: Whenever possible, use 2 or 3 bullet points to break up technical concepts instead of large paragraphs.
     3. Tone: Professional, direct, and to-the-point. Strip out all fluff, filler words, and introductory phrases (e.g., do not start with 'When designing a scalable system, I would start by...').

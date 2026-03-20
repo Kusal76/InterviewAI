@@ -3,7 +3,18 @@ import axios from "axios";
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
     withCredentials: true,
-})
+});
+
+// 🔥 ADDED: Interceptor to grab the token from localStorage for GitHub users!
+api.interceptors.request.use((config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+}, (error) => {
+    return Promise.reject(error);
+});
 
 /**
  * @description Service to generate interview report based on user self description, resume and job description.
@@ -15,8 +26,8 @@ export const generateInterviewReport = async ({ jobDescription, selfDescription,
     formData.append("selfDescription", selfDescription)
     formData.append("resume", resumeFile)
 
-    // FIX: Remove "/api" prefix
-    const response = await api.post("/interview", formData, {
+    // 🔥 FIX: Added "/api" prefix back
+    const response = await api.post("/api/interview", formData, {
         headers: {
             "Content-Type": "multipart/form-data"
         }
@@ -29,8 +40,8 @@ export const generateInterviewReport = async ({ jobDescription, selfDescription,
  * @description Service to get interview report by interviewId.
  */
 export const getInterviewReportById = async (interviewId) => {
-    // FIX: Remove "/api" prefix
-    const response = await api.get(`/interview/report/${interviewId}`)
+    // 🔥 FIX: Added "/api" prefix back
+    const response = await api.get(`/api/interview/report/${interviewId}`)
 
     return response.data
 }
@@ -39,8 +50,8 @@ export const getInterviewReportById = async (interviewId) => {
  * @description Service to get all interview reports of logged in user.
  */
 export const getAllInterviewReports = async () => {
-    // FIX: Remove "/api" prefix
-    const response = await api.get("/interview/")
+    // 🔥 FIX: Added "/api" prefix back
+    const response = await api.get("/api/interview/")
 
     return response.data
 }
@@ -49,8 +60,8 @@ export const getAllInterviewReports = async () => {
  * @description Service to generate resume pdf based on user self description, resume content and job description.
  */
 export const generateResumePdf = async ({ interviewReportId }) => {
-    // FIX: Remove "/api" prefix
-    const response = await api.post(`/interview/resume/pdf/${interviewReportId}`, null, {
+    // 🔥 FIX: Added "/api" prefix back
+    const response = await api.post(`/api/interview/resume/pdf/${interviewReportId}`, null, {
         responseType: "blob"
     })
 

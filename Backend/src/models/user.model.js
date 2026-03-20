@@ -1,5 +1,4 @@
-const mongoose = require("mongoose")
-
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -7,19 +6,19 @@ const userSchema = new mongoose.Schema({
         unique: [true, "username already taken"],
         required: true,
     },
-
     email: {
         type: String,
         unique: [true, "Account already exists with this email address"],
         required: true,
     },
-
     password: {
         type: String,
-        required: true
-    }
-})
+        required: false 
+    },
+    githubId: { type: String },
+    githubAccessToken: { type: String }
+}, { timestamps: true });
 
-const userModel = mongoose.model("users", userSchema)
+const userModel = mongoose.model("users", userSchema);
 
-module.exports = userModel
+module.exports = userModel;

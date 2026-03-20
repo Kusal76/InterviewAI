@@ -1,11 +1,11 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL,
+    baseURL: import.meta.env.VITE_API_BASE_URL, // Ensure your .env has VITE_API_BASE_URL=http://localhost:3000
     withCredentials: true
 });
 
-// Interceptor stays the same
+// Interceptor grabs the token from localStorage for GitHub auth!
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -18,8 +18,8 @@ api.interceptors.request.use((config) => {
 
 export async function register({ username, email, password }) {
     try {
-        // FIX: Remove "/api" prefix
-        const response = await api.post('/auth/register', {
+        // Added /api back to the path
+        const response = await api.post('/api/auth/register', {
             username, email, password
         });
         return response.data;
@@ -30,8 +30,8 @@ export async function register({ username, email, password }) {
 
 export async function login({ email, password }) {
     try {
-        // FIX: Remove "/api" prefix
-        const response = await api.post("/auth/login", {
+        // Added /api back to the path
+        const response = await api.post("/api/auth/login", {
             email, password
         });
         return response.data;
@@ -42,8 +42,8 @@ export async function login({ email, password }) {
 
 export async function logout() {
     try {
-        // FIX: Remove "/api" prefix
-        const response = await api.get("/auth/logout");
+        // Added /api back to the path
+        const response = await api.get("/api/auth/logout");
         return response.data;
     } catch (err) {
         throw err;
@@ -52,8 +52,8 @@ export async function logout() {
 
 export async function getMe() {
     try {
-        // FIX: Remove "/api" prefix
-        const response = await api.get("/auth/get-me");
+        // Added /api back to the path. This fixes the 404 Session check!
+        const response = await api.get("/api/auth/get-me");
         return response.data;
     } catch (err) {
         throw err;

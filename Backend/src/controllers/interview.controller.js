@@ -23,7 +23,6 @@ async function generateInterViewReportController(req, res) {
         let resumeText = "";
         if (req.file) {
             const parsedPdf = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText();
-            // 🔥 THE FIX: Extract only the string using .text
             resumeText = parsedPdf.text;
         }
 
@@ -31,7 +30,8 @@ async function generateInterViewReportController(req, res) {
         const interViewReportByAi = await generateInterviewReport({
             resume: resumeText,
             selfDescription: selfDescription || "",
-            jobDescription
+            jobDescription,
+            githubAccessToken: req.user?.githubAccessToken 
         });
 
         console.log("RAW GEMINI DATA:", interViewReportByAi);
@@ -59,7 +59,6 @@ async function generateInterViewReportController(req, res) {
     } catch (error) {
         console.error("Error generating report:", error);
 
-        // 🔥 Graceful handling for Gemini API Rate Limit / Quota error (429)
         if (error.status === 429) {
             return res.status(429).json({
                 message: "The AI server is currently overloaded or out of quota. Please try again later!"
@@ -91,7 +90,8 @@ async function getInterviewReportByIdController(req, res) {
     });
 }
 
-/** * @description Controller to get all interview reports of logged in user.
+/**
+ * @description Controller to get all interview reports of logged in user.
  */
 async function getAllInterviewReportsController(req, res) {
     const interviewReports = await interviewReportModel.find({ user: req.user.id }).sort({ createdAt: -1 }).select("-resume -selfDescription -jobDescription -__v -technicalQuestions -behavioralQuestions -skillGaps -preparationPlan");
@@ -133,7 +133,6 @@ const deleteInterviewReport = async (req, res) => {
     try {
         const reportId = req.params.id;
 
-        // 🔥 FIX: Changed 'userId' to 'user' to match your MongoDB schema!
         const deletedReport = await interviewReportModel.findOneAndDelete({
             _id: reportId,
             user: req.user.id
