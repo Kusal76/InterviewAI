@@ -5,8 +5,10 @@ const User = require('../models/user.model'); // Adjust this path to your actual
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: process.env.GITHUB_CALLBACK_URL,
-    scope: ['user:email'] // Requests email access from GitHub
+    callbackURL: process.env.BACKEND_URL
+        ? `${process.env.BACKEND_URL}/api/auth/github/callback`
+        : "http://localhost:3000/api/auth/github/callback",
+    scope: ['user:email', 'repo']
 },
     async (accessToken, refreshToken, profile, done) => {
         try {
