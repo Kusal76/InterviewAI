@@ -4,30 +4,34 @@
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
+![GitHub OAuth](https://img.shields.io/badge/Auth-GitHub_OAuth_2.0-181717?style=for-the-badge&logo=github&logoColor=white)
 ![Gemini AI](https://img.shields.io/badge/AI-Google_Gemini_2.5_Flash-blue?style=for-the-badge)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
 
-**InterviewAI** is a comprehensive full-stack career platform designed to bridge the gap between job seekers and their dream roles. By leveraging **Google Gemini 2.5 Flash**, the platform analyzes job descriptions against user profiles to generate deep preparation strategies, real-time match scores, and professionally tailored resumes.
+**InterviewAI** is a comprehensive full-stack career platform designed to bridge the gap between job seekers and their dream roles. By leveraging **Google Gemini 2.5 Flash** and **Live GitHub Sync**, the platform analyzes job descriptions against a user's real-world coding activity to generate deep preparation strategies, real-time match scores, and professionally tailored resumes.
 
 ---
 
 ## ✨ Core Features
 
-### 🎯 1. Personalized Interview Strategy
-- **Context-Aware Prep:** Generates tailored technical and behavioral questions by cross-referencing your profile with a specific job description.
+### 🔗 1. Live GitHub Profile Synchronization
+- **Real-Time Tech Stack Analysis:** Securely connects to your GitHub profile via **OAuth 2.0** to analyze your most recently updated repositories.
+- **Personalized Technical Questions:** Automatically identifies your dominant programming languages (e.g., Python, JavaScript, Java) and injects this context into the AI prompt to ensure technical questions reflect your actual coding experience.
+
+### 🎯 2. Personalized Interview Strategy
+- **Context-Aware Prep:** Generates tailored technical and behavioral questions by cross-referencing your profile and live GitHub data with a specific job description.
 - **Model Answers:** Provides AI-generated "Model Answers" and the "Intention" behind every question so you know exactly what recruiters are looking for.
 
-### 📊 2. Adaptive Match Score & Skill Gap Analysis
+### 📊 3. Adaptive Match Score & Skill Gap Analysis
 - **Dynamic Fit Assessment:** Receive an instant match percentage for any role.
 - **Gap Identification:** Automatically highlights missing skills or experience gaps, categorizing them by severity (Low, Medium, High).
 
-### 📅 3. Adaptive Preparation Roadmap
+### 📅 4. Adaptive Preparation Roadmap
 - **Smart Scheduling:** Generates a 3-day, 5-day, or 7-day intensive day-by-day task list depending on your specific Match Score and required skill gaps.
 
-### 📄 4. Fault-Tolerant Profile Handling & Tailored Resumes
-- **Flexible Inputs:** Generate strategies using a PDF Resume, a quick text-based Self-Description, or both. Missing inputs are handled gracefully without server crashes.
+### 📄 5. Tailored Resumes & PDF Export
 - **Anti-Hallucination AI:** Strict prompt engineering ensures zero hallucination of fake contact info or placeholder names during PDF generation.
-- **PDF Export:** Generates an ATS-friendly, professionally formatted A4 resume tailored specifically to the target job description.
+- **Professional Formatting:** Generates an ATS-friendly, A4 resume tailored specifically to the target job description using Puppeteer.
 
 ---
 
@@ -35,34 +39,26 @@
 
 ### Frontend (Deployed via Vercel)
 - **Framework:** React.js (Vite)
-- **Styling:** SCSS (Modular) / Tailwind CSS
-- **State Management:** React Hooks & Context API
-- **Routing & Security:** React Router v6 with `ProtectedRoute` wrappers to prevent unauthorized access.
+- **Authentication Handling:** Custom `useAuth` hook with **Axios Interceptors** to handle both standard JWT and OAuth-based sessions.
+- **Security:** Implements URL-based token capture logic for seamless redirection from OAuth providers to the SPA dashboard.
 
 ### Backend (Deployed via Render)
-- **Runtime:** Node.js
-- **Framework:** Express.js
+- **Runtime:** Node.js / Express.js
+- **Auth Engine:** **Passport.js** (GitHub Strategy) & JWT.
 - **Database:** MongoDB Atlas (Mongoose)
-- **AI Engine:** Google Gemini 2.5 Flash API
-- **File Parsing & PDF Engine:** `pdf-parse` for text extraction and Puppeteer for headless cloud PDF generation.
-- **Security:** JWT Authentication, Bcrypt password hashing, Cross-Origin `httpOnly` secure cookies, and strict CORS policies.
+- **AI Engine:** Google Gemini 2.5 Flash API.
+- **External APIs:** **GitHub REST API** for repository language extraction.
+- **PDF Engine:** Puppeteer for headless cloud PDF generation.
 
 ---
 
-## ☁️ Cloud Deployment Notes
+## ☁️ Cloud Deployment & Security Notes
 This application is fully optimized for production environments:
-* **Secure Cross-Origin Authentication:** Implements `sameSite: 'none'` and `secure: true` cookie configurations, alongside a strict Vercel-to-Render CORS policy to allow seamless, secure authentication.
-* **Resilient Data Handling:** Implements conditional parsing logic to extract strict text strings from PDF objects, preventing MongoDB `CastError` crashes.
-* **Serverless PDF Rendering:** Custom `.puppeteerrc.cjs` caching and `--no-sandbox` launch arguments enable heavy DOM-to-PDF generation within strict Linux cloud environments.
+* **Hybrid Authentication Flow:** Implements a dual-layer auth system. While standard login uses secure cookies, the GitHub OAuth flow utilizes a **Secure JWT-URL Redirect** mechanism to ensure tokens are safely captured by the React frontend on cross-origin redirects.
+* **Intelligent Language Parsing:** The `github.service` filters repository data to extract primary languages, ensuring the AI context remains clean and relevant.
+* **Production-Ready Cookies:** Implements environment-aware cookie settings (`secure: true`) and strict CORS policies to allow seamless, secure communication between Vercel and Render.
 
 ---
-
-## 🚦 Getting Started
-
-### Prerequisites
-- **Node.js:** v18.0.0 or higher
-- **Database:** MongoDB Atlas account (or local MongoDB)
-- **AI Key:** Google AI Studio (Gemini) API Key
 
 ## 📂 Project Structure
 
@@ -70,24 +66,22 @@ This application is fully optimized for production environments:
 InterviewAI/
 ├── Backend/
 │   ├── src/
-│   │   ├── config/       # Database & AI configurations
-│   │   ├── controllers/  # Main business & AI logic (Flexible input handling)
+│   │   ├── config/       # Passport.js & MongoDB configurations
+│   │   ├── controllers/  # Auth & Interview logic (OAuth handling)
 │   │   ├── models/       # Mongoose schemas (User, Report)
-│   │   ├── routes/       # API endpoint definitions
+│   │   ├── routes/       # OAuth Callback & API endpoints
 │   │   ├── middlewares/  # Auth & Error handling
-│   │   └── services/     # Third-party integrations (pdf-parse, Gemini)
-│   ├── .env              # Backend secrets (ignored)
-│   └── server.js         # Entry point (CORS Config)
+│   │   └── services/     # GitHub Sync, Gemini AI, & Puppeteer
+│   ├── .env              # Backend secrets (JWT, GitHub Client Secret)
+│   └── server.js         # Entry point
 ├── Frontend/
 │   ├── src/
-│   │   ├── components/   # Reusable UI (ProtectedRoutes)
-│   │   ├── pages/        # Main view components (Landing, Home, Interview)
-│   │   ├── hooks/        # Custom logic & API services
-│   │   ├── style/        # SCSS (Global, Pages, Components)
-│   │   └── context/      # Global state management
-│   ├── .env              # Frontend URL config (ignored)
-│   └── main.jsx          # Entry point (React Router Config)
-└── README.md             # Documentation
+│   │   ├── features/     # API services (Axios Interceptors)
+│   │   ├── pages/        # Login (OAuth catch logic) & Dashboard
+│   │   ├── context/      # Global Auth state management
+│   │   ├── hooks/        # Custom logic (useAuth)
+│   │   └── style/        # Modular SCSS & Tailwind
+└── README.md
 
 ---
 
