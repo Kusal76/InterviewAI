@@ -31,7 +31,7 @@ async function generateInterViewReportController(req, res) {
             resume: resumeText,
             selfDescription: selfDescription || "",
             jobDescription,
-            githubAccessToken: req.user?.githubAccessToken 
+            githubAccessToken: req.user?.githubAccessToken
         });
 
         console.log("RAW GEMINI DATA:", interViewReportByAi);
@@ -59,6 +59,14 @@ async function generateInterViewReportController(req, res) {
     } catch (error) {
         console.error("Error generating report:", error);
 
+        // 🔥 NEW: Handle 503 Service Unavailable (Gemini High Demand)
+        if (error.status === 503 || (error.message && error.message.includes("high demand"))) {
+            return res.status(503).json({
+                message: "The AI engine is currently experiencing a temporary traffic spike. Please wait a moment and try again!"
+            });
+        }
+
+        // Handle 429 Too Many Requests (Quota Exceeded)
         if (error.status === 429) {
             return res.status(429).json({
                 message: "The AI server is currently overloaded or out of quota. Please try again later!"
